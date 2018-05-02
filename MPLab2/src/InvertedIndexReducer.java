@@ -27,7 +27,7 @@ public class InvertedIndexReducer extends Reducer<Text,LongWritable,Text,Text> {
         if(curWord == null)
             curWord = inputWord;
         else if( ! inputWord.equals(curWord)){
-            dumpMap();          //dump map
+            dumpMap(context);          //dump map
             curWord = inputWord;     
         }
         count.set(0);
@@ -41,16 +41,17 @@ public class InvertedIndexReducer extends Reducer<Text,LongWritable,Text,Text> {
     protected void cleanup(Reducer<Text,LongWritable,Text,Text>.Context context)
         throws IOException, InterruptedException {
 
-        dumpMap();              //dump map
+        dumpMap(context);              //dump map
     }
 
     private long nWords = 0;
     private long nDocs = 0;
     private StringBuilder all = new StringBuilder();
 
-    protected void dumpMap(){   
+    protected void dumpMap(Reducer<Text,LongWritable,Text,Text>.Context context)
+        throws IOException, InterruptedException {   
 
-        all.clear();
+        all.setLength(0);
         nWords = 0;
         nDocs = 0;
         for(Map.Entry<Text, LongWritable> entry : map.entrySet()){

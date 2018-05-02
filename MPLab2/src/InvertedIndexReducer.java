@@ -3,15 +3,15 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.io.LongWritable;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.TreeMap;
+import java.util.NavigableMap;
 import java.util.Map;
 
 public class InvertedIndexReducer extends Reducer<Text,LongWritable,Text,Text> {
     
     private static Text curWord = null;
 
-    private Map<Text,LongWritable> map = new HashMap<Text,LongWritable>();
+    private NavigableMap<Text,LongWritable> map = new TreeMap<Text,LongWritable>();
     
     @Override
     protected void reduce(Text key, Iterable<LongWritable> values, Context context)
@@ -34,7 +34,8 @@ public class InvertedIndexReducer extends Reducer<Text,LongWritable,Text,Text> {
             long nWords = 0;
             long nDocs = 0;
             for(Map.Entry<Text, LongWritable> entry : map.entrySet()){
-                all.append(entry.getKey() + ":" + entry.getValue() + "; ");
+                String splitToken = entry.equals(map.lastEntry()) ? "" : "; ";
+                all.append(entry.getKey() + ":" + entry.getValue() + splitToken);
                 nWords += entry.getValue().get();
                 nDocs += 1;
             }
@@ -54,6 +55,7 @@ public class InvertedIndexReducer extends Reducer<Text,LongWritable,Text,Text> {
     @Override
     protected void cleanup(Reducer<Text,LongWritable,Text,Text>.Context context)
         throws IOException, InterruptedException {
+        //dump map
         StringBuilder all = new StringBuilder();
         for(Map.Entry<Text, LongWritable> entry : map.entrySet()){
             all.append(entry.getKey() + ":" + entry.getValue() + ";");

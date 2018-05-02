@@ -10,9 +10,11 @@ public class InvertedIndexMapper extends Mapper<LongWritable,Text,Text,LongWrita
     @Override
     protected void map(LongWritable key, Text value, Context context)
         throws IOException, InterruptedException {
+        //get filename
         FileSplit fileSplit = (FileSplit)context.getInputSplit();
         String fileName = fileSplit.getPath().getName();
         fileName = fileName.replace(".txt.segmented","");
+        //emit words in the document
         StringTokenizer itr = new StringTokenizer(value.toString());
         for(;itr.hasMoreElements();) {
             Text word_docId = new Text(itr.nextToken() + "," + fileName);

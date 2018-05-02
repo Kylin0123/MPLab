@@ -10,57 +10,55 @@ import java.util.Map;
 public class InvertedIndexReducer extends Reducer<Text,LongWritable,Text,Text> {
     
     private static Text curWord = null;
-
     private NavigableMap<Text,LongWritable> map = new TreeMap<Text,LongWritable>();
     
+    private String[] word_docId = null;
+    private Text inputWord = null;
+    private Text inputDocId = null;
+    private LongWritable count = new LongWritable(0);
+
     @Override
     protected void reduce(Text key, Iterable<LongWritable> values, Context context)
         throws IOException, InterruptedException {
-        String[] word_docId = key.toString().split(",");
-        Text word = new Text(word_docId[0]);
-        Text docId = new Text(word_docId[1]);
+
+        word_docId = key.toString().split(",");
+        inputWord = new Text(word_docId[0]);
+        inputDocId = new Text(word_docId[1]);
         if(curWord == null)
-            curWord = word;
-        if(word.equals(curWord)){
-            LongWritable count = new LongWritable(0);
-            for(LongWritable value : values) {
-                count.set(count.get() + value.get());
-            }
-            map.put(docId, count);
+            curWord = inputWord;
+        else if( ! inputWord.equals(curWord)){
+            dumpMap();          //dump map
+            curWord = inputWord;     
         }
-        else{
-            //dump map
-            StringBuilder all = new StringBuilder();
-            long nWords = 0;
-            long nDocs = 0;
-            for(Map.Entry<Text, LongWritable> entry : map.entrySet()){
-                String splitToken = entry.equals(map.lastEntry()) ? "" : "; ";
-                all.append(entry.getKey() + ":" + entry.getValue() + splitToken);
-                nWords += entry.getValue().get();
-                nDocs += 1;
-            }
-            double rate = (double)nWords/nDocs;
-            context.write(curWord, new Text(String.format("%.2f",rate) + ", " + all.toString()));
-            map.clear();
-            //get new word
-            curWord = word;
-            LongWritable count = new LongWritable(0);
-            for(LongWritable value : values) {
-                count.set(count.get() + value.get());
-            }
-            map.put(docId, count);
+        count.set(0);
+        for(LongWritable value : values) {
+            count.set(count.get() + value.get());
         }
+        map.put(inputDocId, count);
     }
 
     @Override
     protected void cleanup(Reducer<Text,LongWritable,Text,Text>.Context context)
         throws IOException, InterruptedException {
-        //dump map
-        StringBuilder all = new StringBuilder();
+
+        dumpMap();              //dump map
+    }
+
+    private long nWords = 0;
+    private long nDocs = 0;
+    private StringBuilder all = new StringBuilder();
+
+    protected void dumpMap(){   
+
+        all.clear();
+        nWords = 0;
+        nDocs = 0;
         for(Map.Entry<Text, LongWritable> entry : map.entrySet()){
-            all.append(entry.getKey() + ":" + entry.getValue() + ";");
+            all.append(entry.getKey() + ":" + entry.getValue() + (entry.equals(map.lastEntry()) ? "" : "; "));
+            nWords += entry.getValue().get();
+            nDocs += 1;
         }
-        context.write(curWord, new Text(all.toString()));
+        context.write(curWord, new Text(String.format("%.2f",(double)nWords/nDocs) + ", " + all.toString()));
         map.clear();
     }
 }

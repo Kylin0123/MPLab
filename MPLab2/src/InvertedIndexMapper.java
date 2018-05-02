@@ -15,10 +15,8 @@ public class InvertedIndexMapper extends Mapper<LongWritable,Text,Text,LongWrita
         String fileName = fileSplit.getPath().getName();
         fileName = fileName.replace(".txt.segmented","");
         //emit words in the document
-        StringTokenizer itr = new StringTokenizer(value.toString());
-        for(;itr.hasMoreElements();) {
-            Text word_docId = new Text(itr.nextToken() + "," + fileName);
-            context.write(word_docId,new LongWritable(1));
+        for(String word:value.toString.split(" ")){
+            context.write(new Text(word+","+fileName), new LongWritable(1));
         }
     }
 }

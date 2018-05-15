@@ -1,8 +1,29 @@
 package com.nju.mplab14;
 
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.conf.Configured;
+
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.MasterNotRunningException;
+import org.apache.hadoop.hbase.ZooKeeperConnectionException;
+import org.apache.hadoop.hbase.client.HBaseAdmin;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.Admin;
+import org.apache.hadoop.hbase.client.Table;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
+import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
+import org.apache.hadoop.hbase.mapreduce.TableReducer;
+import org.apache.hadoop.hbase.TableName;
 
 import java.io.IOException;
 import java.util.TreeMap;
@@ -17,7 +38,55 @@ public class InvertedIndexReducer extends Reducer<Text,LongWritable,Text,Text> {
     private String[] word_docId = null;
     private Text inputWord = null;
     private Text inputDocId = null;
-    private LongWritable count = new LongWritable(0);
+
+    private Connection connection = null;
+    private Table table = null;
+
+    @Override
+    protected void setup(Reducer<Text,LongWritable,Text,Text>.Context context)
+        throws IOException,InterruptedException {
+
+        Configuration conf = null;  
+        conf = HBaseConfiguration.create();  
+        conf.set("hbase.zookeeper.quorum", "localhost");  
+        conf.set("hbase.zookeeper.property.clientPort", "2181");   
+
+        connection = ConnectionFactory.createConnection(conf);
+        Admin hAdmin = connection.getAdmin();
+
+        TableName tableName = TableName.valueOf("Wuxia");
+
+        if( hAdmin.tableExists(tableName) ){ //如果表格存在就删除
+            hAdmin.disableTable(tableName);
+            hAdmin.deleteTable(tableName);    
+        }
+        
+        // 创建表格
+        HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
+        HColumnDescriptor columnDescriptor = new HColumnDescriptor("avgCnt");
+        tableDescriptor.addFamily(columnDescriptor);
+        hAdmin.createTable(tableDescriptor);
+
+        // 建立连接
+        table = connection.getTable(tableName);
+       
+    }
+
+    private void putInDataBase(String key, String value){
+        if(key.length() == 0)
+            return;
+        Put put = new Put(Bytes.toBytes(key));
+        put.addColumn( Bytes.toBytes("avgCnt"), Bytes.toBytes(""), Bytes.toBytes(value) );
+        try{
+            table.put(put);
+        }
+        catch(IOException e){
+
+        }
+        catch(IllegalArgumentException ex){
+
+        }
+    }
 
     @Override
     protected void reduce(Text key, Iterable<LongWritable> values, Context context)
@@ -32,8 +101,10 @@ public class InvertedIndexReducer extends Reducer<Text,LongWritable,Text,Text> {
             dumpMap(context);          //dump map
             curWord = inputWord;     
         }
-        count.set(0);
+        
+        LongWritable count = new LongWritable(0);
         for(LongWritable value : values) {
+            
             count.set(count.get() + value.get());
         }
         map.put(inputDocId, count);
@@ -44,6 +115,9 @@ public class InvertedIndexReducer extends Reducer<Text,LongWritable,Text,Text> {
         throws IOException, InterruptedException {
 
         dumpMap(context);              //dump map
+
+        table.close();
+        connection.close();
     }
 
     private long nWords = 0;
@@ -61,7 +135,11 @@ public class InvertedIndexReducer extends Reducer<Text,LongWritable,Text,Text> {
             nWords += entry.getValue().get();
             nDocs += 1;
         }
-        context.write(curWord, new Text(String.format("%.2f",(double)nWords/nDocs) + ", " + all.toString()));
+        String argCnt = String.format("%.2f",(double)nWords/nDocs);
+        context.write(curWord, new Text(argCnt + ", " + all.toString()));
         map.clear();
+
+        // 填入数据库
+        putInDataBase(curWord.toString(),argCnt);
     }
 }

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.NavigableMap;
 
-public class HbaseScanner {
+public class HBaseScanner {
     public static void main(String[] args) throws IOException {
 
         BasicConfigurator.configure();

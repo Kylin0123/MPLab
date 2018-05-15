@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.nju.mplab14</groupId>
-  <artifactId>MPLab3</artifactId>
+  <artifactId>MPLab</artifactId>
   <version>1.0</version>
 
-  <name>MPLab3</name>
+  <name>MPLab</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -40,6 +40,31 @@
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-client</artifactId>
       <version>2.7.1</version>
+    </dependency>
+      <dependency>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-mapreduce-client-core</artifactId>
+          <version>2.7.1</version>
+      </dependency>
+      <dependency>
+      <groupId>org.apache.hbase</groupId>
+      <artifactId>hbase-shaded-client</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hbase</groupId>
+      <artifactId>hbase-server</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hbase</groupId>
+      <artifactId>hbase-client</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hbase</groupId>
+      <artifactId>hbase-mapreduce</artifactId>
+      <version>2.0.0</version>
     </dependency>
   </dependencies>
 

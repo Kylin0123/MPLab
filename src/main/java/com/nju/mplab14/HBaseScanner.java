@@ -18,7 +18,7 @@ public class HBaseScanner {
 
         BasicConfigurator.configure();
         /*get the handle of file*/
-        File file = new File("./out.txt");
+        File file = new File("./result/frequency_statistics.txt");
         if(!file.exists()) {
             file.createNewFile();
         }

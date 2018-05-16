@@ -1,10 +1,7 @@
 package com.nju.mplab14;
 
-import java.io.IOException;
-
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Partitioner;
 import org.apache.hadoop.mapreduce.lib.partition.HashPartitioner;
 
 public class InvertedIndexPartitioner extends HashPartitioner<Text,LongWritable>{

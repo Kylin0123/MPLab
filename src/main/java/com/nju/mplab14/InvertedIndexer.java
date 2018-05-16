@@ -13,7 +13,7 @@ public class InvertedIndexer {
     public static void main(String[] args) {
         try{
             Configuration conf = new Configuration();
-            Job job = new Job(conf, "invert index");
+            Job job = Job.getInstance(conf, "invert index");
             job.setJarByClass(InvertedIndexer.class);
             job.setInputFormatClass(TextInputFormat.class);
             job.setMapperClass(InvertedIndexMapper.class);

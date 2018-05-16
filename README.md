@@ -19,7 +19,7 @@ hadoop jar MPLab-1.0.jar com.nju.mplab14.InvertedIndexer {folder-in} {folder-out
 mvn exec:java -Dexec.mainClass="com.nju.mplab14.HBaseScanner"
 ```
 
-##结果文件
+## 结果文件
 
 * `HBaseScanner`运行结果为`frequency_statistics.txt`，保存了词频统计信息
 * Hive读取`frequency_statistics.txt`文件，得到如下两个结果文件

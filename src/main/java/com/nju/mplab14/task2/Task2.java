@@ -23,13 +23,11 @@ public class Task2 {
             job.setCombinerClass(Task2Combiner.class);
             job.setMapOutputKeyClass(Text.class);
             job.setMapOutputValueClass(LongWritable.class);
-            //job.setReducerClass(InvertedIndexReducer.class);
             job.setOutputKeyClass(Text.class);
             job.setOutputValueClass(LongWritable.class);
             FileInputFormat.addInputPath(job, new Path(output1));
             FileOutputFormat.setOutputPath(job, new Path(output2));
-            //job.setNumReduceTasks(0);
-            System.exit(job.waitForCompletion(true)?0:1);
+            job.waitForCompletion(true);
         }catch (Exception e){
             e.printStackTrace();
         }

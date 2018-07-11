@@ -28,15 +28,18 @@ public class Task3Reducer extends Reducer<Text, Text, Text, Text> {
         }
 
         for(Text value : values){
-            String svalue = value.toString();
+            String raw = value.toString();
+            String[] list = raw.split(",");
+            String svalue = list[0];
+            long n = Long.valueOf(list[1]);
             if(!map.containsKey(svalue)){
-                map.put(svalue, new LongWritable(1));
+                map.put(svalue, new LongWritable(n));
             }
             else{
                 LongWritable t = map.get(svalue);
-                map.put(svalue, new LongWritable(t.get() + 1));
+                map.put(svalue, new LongWritable(t.get() + n));
             }
-            sum++;
+            sum += n;
         }
         return;
     }

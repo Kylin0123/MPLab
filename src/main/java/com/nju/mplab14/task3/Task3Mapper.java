@@ -15,10 +15,7 @@ public class Task3Mapper extends Mapper<LongWritable, Text, Text, Text> {
         String[] kv = lineContent.split("\t");
         String[] people = getPeople(kv[0]); // "<p1,p2>" => [p1,p2]
         long times = Long.valueOf(kv[1]); // "1" => 1
-
-        for(int i = 0; i < times; i++){
-            context.write(new Text(people[0]), new Text(people[1]));
-        }
+        context.write(new Text(people[0]), new Text(people[1] + "," + times));
 
     }
     String[] getPeople(String string){

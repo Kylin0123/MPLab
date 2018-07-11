@@ -7,6 +7,6 @@ import com.nju.mplab14.task4.*;
 
 public class Main {
     public static void main(String[] args) {
-
+        new Task2();
     }
 }

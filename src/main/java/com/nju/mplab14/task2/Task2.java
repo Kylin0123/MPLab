@@ -14,6 +14,8 @@ public class Task2 {
         try{
             Configuration conf = new Configuration();
             Job job = new Job(conf, "Task2");
+            String output1 = "/wuxia-out/output1";
+            String output2 = "/wuxia-out/output2";
             job.setJarByClass(Task2.class);
             job.setInputFormatClass(TextInputFormat.class);
             //job.setOutputFormatClass(TextOutputFormat.class);
@@ -23,10 +25,10 @@ public class Task2 {
             job.setMapOutputValueClass(LongWritable.class);
             //job.setReducerClass(InvertedIndexReducer.class);
             job.setOutputKeyClass(Text.class);
-            job.setOutputValueClass(Text.class);
-            FileInputFormat.addInputPath(job, new Path(args[0]));
-            FileOutputFormat.setOutputPath(job, new Path(args[1]));
-            job.setNumReduceTasks(0);
+            job.setOutputValueClass(LongWritable.class);
+            FileInputFormat.addInputPath(job, new Path(output1));
+            FileOutputFormat.setOutputPath(job, new Path(output2));
+            //job.setNumReduceTasks(0);
             System.exit(job.waitForCompletion(true)?0:1);
         }catch (Exception e){
             e.printStackTrace();

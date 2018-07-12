@@ -22,7 +22,7 @@ public class Task4Mapper extends Mapper<LongWritable, Text, Text, Text>{
         String NodeList;
         double curRank;
 
-        if( strs[1][0] == '[' ){ // NodeList， 把这个字符串存入DC
+        if( strs[1].charAt(0) == '[' ){ // NodeList， 把这个字符串存入DC
             NodeList = strs[1];
             curRank = initRank;
         }

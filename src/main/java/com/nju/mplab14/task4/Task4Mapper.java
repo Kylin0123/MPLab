@@ -22,14 +22,28 @@ public class Task4Mapper extends Mapper<LongWritable, Text, Text, Text>{
         String NodeList;
         double curRank;
 
-        if( strs[1].charAt(0) == '[' ){ // NodeList， 把这个字符串存入DC
-            NodeList = strs[1];
+        if( strs[1].charAt(0) == '[' ){
             curRank = initRank;
+            NodeList = strs[1];
         }
-        else{ // curRank，从DC中去除NodeList
+        else{
             curRank = Double.parseDouble(strs[1]);
+            NodeList = strs[2];
         }
 
-        
+        String []nodes = NodeList.substring( 1, NodeList.length()-1 ).split("|");
+        String values[];
+        String u;
+        String probabilityStr;
+        double probability;
+        for( String node : nodes ){
+            values = node.split(",");
+            u = values[0];
+            probabilityStr = values[1];
+            probability = Double.parseDouble(probabilityStr);
+            context.write( new Text(u), new Text( String.valueOf(probability * curRank) ) );
+        }
+
+        context.write( new Text(name), new Text(NodeList) );
     }
 }

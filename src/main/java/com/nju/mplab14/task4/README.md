@@ -8,18 +8,26 @@
 狄云    [戚芳,0.33333|戚长发,0.333333|卜垣,0.333333]  
 戚芳    [狄云,0.25|戚长发,0.25|卜垣,0.5]  
 戚长发  [狄云,0.33333|戚芳,0.333333|卜垣,0.333333]  
-卜垣    [狄云0.25|戚芳,0.5|戚长发,0.25] 
+卜垣    [狄云,0.25|戚芳,0.5|戚长发,0.25] 
 或者任务4的输出 
 
 输出：人物 \t 人物的PageRank值
 
 ## 伪代码
 
+>Main:
+>
+>​	Read output3 into DC
+>
+>​	count the number in output3 into the **N**
+>
+>
+>
 >Mapper:
 >
->​	Input: 	name \t curRank **or** NodeList
+>​	Input: 	name \t curRank **or**  NodeList
 >
->  Setup:   from DC read NodeList into map
+>​	Setup:	from DC read  \< name, NodeList > into map
 >
 >​	Process:	if NodeList
 >
@@ -29,9 +37,11 @@
 >
 >​				emit \< u , curRank * probability \>
 >
->​			emit \< name , NodeList\>
+>​			emit \< name , NodeList>
 
 > Reducer:
+>
+> ​	Setup: from context read **N**
 >
 > ​	Input:  name \t val **or** NodeList
 >
@@ -39,5 +49,5 @@
 >
 > ​			newRank = (1-d)/N + d*sum( **all** val  )
 >
-> ​			emit \< name , newRank>
+> ​			emit \< name , newRank  >
 

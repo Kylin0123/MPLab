@@ -4,6 +4,40 @@
 
 ## 输入输出
 
-输入：任务3的输出
+输入：任务3的输出  
+狄云    [戚芳,0.33333|戚长发,0.333333|卜垣,0.333333]  
+戚芳    [狄云,0.25|戚长发,0.25|卜垣,0.5]  
+戚长发  [狄云,0.33333|戚芳,0.333333|卜垣,0.333333]  
+卜垣    [狄云0.25|戚芳,0.5|戚长发,0.25] 
+或者任务4的输出 
 
-输出：人物的PageRank值
+输出：人物 \t 人物的PageRank值
+
+## 伪代码
+
+>Mapper:
+>
+>​	Input: 	name \t curRank **or** NodeList
+>
+>  Setup:   from DC read NodeList into map
+>
+>​	Process:	if NodeList
+>
+>​				curRank = initRank
+>
+>​			for each <u, probability> in NodeList
+>
+>​				emit \< u , curRank * probability \>
+>
+>​			emit \< name , NodeList\>
+
+> Reducer:
+>
+> ​	Input:  name \t val **or** NodeList
+>
+> ​	Process: 
+>
+> ​			newRank = (1-d)/N + d*sum( **all** val  )
+>
+> ​			emit \< name , newRank>
+

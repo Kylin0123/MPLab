@@ -42,13 +42,13 @@
 >
 >​				emit \< u , curRank * probability \>
 >
->​			emit \< name , NodeList>
+
 
 > Reducer:
 >
 > ​	Setup: from context read **N**
 >
-> ​	Input:  name \t val **or** NodeList
+> ​	Input:  name \t val
 >
 > ​	Process: 
 >

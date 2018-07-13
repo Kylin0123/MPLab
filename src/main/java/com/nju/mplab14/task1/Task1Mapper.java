@@ -50,7 +50,8 @@ public class Task1Mapper extends Mapper<LongWritable, Text, Text, LongWritable>{
             }
         }
     
-        if(temp.size() >= 2) {
+
+        if(temp.size() >= 2 && !((temp.get(0)).equals(temp.get(1)))) {
             for (String t : temp) {
                 str = str + t + " ";
             }

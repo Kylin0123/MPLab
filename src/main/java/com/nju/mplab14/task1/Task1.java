@@ -15,6 +15,10 @@ public class Task1{
     public static void main(String[] args){
         try{
             Configuration conf = new Configuration();
+            
+            conf.set("mapred.textoutputformat.ignoreseparator","true");
+            conf.set("mapred.textoutputformat.separator", "");
+
             Job job = new Job(conf, "Task1");
             job.addCacheFile(new Path("/wuxia-in/People_List_unique.txt").toUri());
             job.setJarByClass(Task1.class);
@@ -29,7 +33,7 @@ public class Task1{
             job.setReducerClass(Task1Reducer.class);
             
             job.setInputFormatClass(TextInputFormat.class);
-            job.setOutputFormatClass(TextOutputFormat.class);
+            job.setOutputFormatClass(Task1CustomOutputFormat.class);
             
             job.setMapOutputKeyClass(Text.class);
             job.setMapOutputValueClass(LongWritable.class);

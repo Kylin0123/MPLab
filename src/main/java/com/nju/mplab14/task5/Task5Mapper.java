@@ -8,7 +8,6 @@ import org.apache.hadoop.mapreduce.Mapper;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URI;
 import java.util.*;
 
 public class Task5Mapper extends Mapper<LongWritable, Text, Text, Text> {

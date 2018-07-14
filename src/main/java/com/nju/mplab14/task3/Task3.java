@@ -13,21 +13,24 @@ public class Task3 {
         try {
             String outpath2 = "/wuxia-out/output2";
             String outpath3 = "/wuxia-out/output3";
-            Configuration jobconf3 = new Configuration();
-            Job job3 = new Job(jobconf3, "task3");
+            Configuration conf = new Configuration();
+            Job job = new Job(conf, "task3");
 
-            job3.setJarByClass(Task3.class);
-            job3.setInputFormatClass(TextInputFormat.class);
-            job3.setMapperClass(Task3Mapper.class);
-            job3.setReducerClass(Task3Reducer.class);
-            job3.setMapOutputKeyClass(Text.class);
-            job3.setMapOutputValueClass(Text.class);
-            job3.setOutputKeyClass(Text.class);
-            job3.setOutputValueClass(Text.class);
+            job.setJarByClass(Task3.class);
+            job.setInputFormatClass(TextInputFormat.class);
+            job.setMapperClass(Task3Mapper.class);
+            job.setReducerClass(Task3Reducer.class);
+            job.setMapOutputKeyClass(Text.class);
+            job.setMapOutputValueClass(Text.class);
+            job.setOutputKeyClass(Text.class);
+            job.setOutputValueClass(Text.class);
 
-            FileInputFormat.addInputPath(job3, new Path(outpath2));
-            FileOutputFormat.setOutputPath(job3, new Path(outpath3));
-            job3.waitForCompletion(true);
+            //set num of reduce tasks to 1
+            job.setNumReduceTasks(1);
+
+            FileInputFormat.addInputPath(job, new Path(outpath2));
+            FileOutputFormat.setOutputPath(job, new Path(outpath3));
+            job.waitForCompletion(true);
         } catch(Exception e){
             e.printStackTrace();
         }

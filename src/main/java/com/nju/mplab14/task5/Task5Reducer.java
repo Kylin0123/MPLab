@@ -4,9 +4,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Task5Reducer extends Reducer<Text, Text, Text, Text> {
 	@Override
@@ -26,15 +24,19 @@ public class Task5Reducer extends Reducer<Text, Text, Text, Text> {
 			}
 		}
 
-		//找到权重最大的label（task3中可以保证这里的key的values至少有一个）
-		Map.Entry<String,Double> maxEntry = new AbstractMap.SimpleEntry<>("", -1.0);
+		//找到权重最大的几个label，随机选一个（task3中可以保证这里的key的values至少有一个）
+		List<Map.Entry<String,Double>> maxEntrys = new ArrayList<>();
 		for(Map.Entry<String,Double> entry:labelMap.entrySet()){
-			if(entry.getValue()>=maxEntry.getValue()){
-				maxEntry = entry;
+			if(maxEntrys.isEmpty() || entry.getValue().equals(maxEntrys.get(0).getValue())){
+				maxEntrys.add(entry);
+			}else if(entry.getValue()>maxEntrys.get(0).getValue()){
+				maxEntrys.clear();
+				maxEntrys.add(entry);
 			}
 		}
+		Collections.shuffle(maxEntrys);
 
 		//写入结果
-		context.write(key, new Text(maxEntry.getKey()));
+		context.write(key, new Text(maxEntrys.get(0).getKey()));
 	}
 }

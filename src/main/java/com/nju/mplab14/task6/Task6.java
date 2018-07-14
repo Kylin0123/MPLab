@@ -1,8 +1,5 @@
 package com.nju.mplab14.task6;
 
-import com.nju.mplab14.task6.Task6;
-import com.nju.mplab14.task6.Task6Mapper;
-import com.nju.mplab14.task6.Task6Reducer;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;

@@ -18,20 +18,25 @@ public class Task4 {
 
 	private static final int iterCount = 5;
 
-	public static void main(String []args) throws IOException {
+	public static void main(String []args) {
 
-        String []iterArgs = {"",""};
+        try{
+            String []iterArgs = {"",""};
 
-		for(int i = 0 ; i < iterCount ; i++ ){
-            if( i != 0 )
-                iterArgs[0] = "/wuxia-out/output4-temp/iter" + i;
-            else 
-                iterArgs[0] = "/wuxia-out/output3/part-r-00000";
-            if( i < iterCount - 1 )
-                iterArgs[1] = "/wuxia-out/output4-temp/iter" + String.valueOf(i+1);
-            else
-                iterArgs[1] = "/wuxia-out/output4";
-			Task4Iter.main(iterArgs);
+            for(int i = 0 ; i < iterCount ; i++ ){
+                if( i != 0 )
+                    iterArgs[0] = "/wuxia-out/output4-temp/iter" + i;
+                else 
+                    iterArgs[0] = "/wuxia-out/output3/part-r-00000";
+                if( i < iterCount - 1 )
+                    iterArgs[1] = "/wuxia-out/output4-temp/iter" + String.valueOf(i+1);
+                else
+                    iterArgs[1] = "/wuxia-out/output4";
+                Task4Iter.main(iterArgs);
+            }
+        }
+        catch(IOException e){
+            e.printStackTrace();
         }
         
 

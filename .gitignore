@@ -30,3 +30,4 @@ target/
 .project
 .settings
 dataset/
+!/lib/*.jar

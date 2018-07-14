@@ -43,7 +43,7 @@ public class Task1{
             
             //job.setNumReduceTasks(0);
             
-            System.exit(job.waitForCompletion(true)?0:1);
+            job.waitForCompletion(true);
         }catch (Exception e){
             e.printStackTrace();
         }

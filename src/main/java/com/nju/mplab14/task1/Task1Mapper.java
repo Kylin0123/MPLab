@@ -30,7 +30,7 @@ public class Task1Mapper extends Mapper<LongWritable, Text, Text, LongWritable>{
             if(cacheFiles != null && cacheFiles.length >0){
                 String line;
                 //String[] tokens;
-                BufferedReader joinReader = new BufferedReader(new FileReader(cacheFiles[0].toString()));
+                BufferedReader joinReader = new BufferedReader(new FileReader(cacheFiles[0].toUri().getPath()));
                 try{
                     while((line = joinReader.readLine()) != null){
                         if(!line.equals("")){

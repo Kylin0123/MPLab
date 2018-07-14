@@ -35,7 +35,7 @@ public class Task4 {
                 Task4Iter.main(iterArgs);
             }
         }
-        catch(IOException e){
+        catch(Exception e){
             e.printStackTrace();
         }
         

@@ -3,7 +3,7 @@ package com.nju.mplab14.task1;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+//import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.io.Text;
@@ -16,8 +16,8 @@ public class Task1{
         try{
             Configuration conf = new Configuration();
             
-            conf.set("mapred.textoutputformat.ignoreseparator","true");
-            conf.set("mapred.textoutputformat.separator", "");
+            //conf.set("mapred.textoutputformat.ignoreseparator","true");
+            //conf.set("mapred.textoutputformat.separator", "");
 
             Job job = new Job(conf, "Task1");
             job.addCacheFile(new Path("/wuxia-in/People_List_unique.txt").toUri());

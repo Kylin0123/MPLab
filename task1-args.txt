@@ -1,0 +1,3 @@
+args[0]="/user/2018st14/wuxia-in/people_name_list.txt"
+args[1]="/user/2018st14/wuxia-in/input1"
+args[2]="/user/2018st14/wuxia-out/output1"

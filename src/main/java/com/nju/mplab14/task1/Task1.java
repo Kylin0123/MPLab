@@ -15,16 +15,16 @@ public class Task1{
     public static void main(String[] args){
         try{
             Configuration conf = new Configuration();
-            
-            //conf.set("mapred.textoutputformat.ignoreseparator","true");
-            //conf.set("mapred.textoutputformat.separator", "");
 
             Job job = new Job(conf, "Task1");
-            job.addCacheFile(new Path("/wuxia-in/People_List_unique.txt").toUri());
+            //job.addCacheFile(new Path("/user/2018st14/wuxia-in/people_name_list.txt").toUri());
+			job.addCacheFile(new Path(args[0]).toUri());
             job.setJarByClass(Task1.class);
 
-            String input = "/wuxia-in/input1";
-            String output = "/wuxia-out/output1";
+            //String input = "/user/2018st14/wuxia-in/input1";
+            String input = args[1];
+			//String output = "/user/2018st14/wuxia-out/output1";
+			String output = args[2];
             FileInputFormat.addInputPath(job, new Path(input));
             FileOutputFormat.setOutputPath(job, new Path(output));            
 

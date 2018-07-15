@@ -11,8 +11,8 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class Task3 {
     public static void main(String[] args) {
         try {
-            String outpath2 = "/wuxia-out/output2";
-            String outpath3 = "/wuxia-out/output3";
+            String outpath2 = args[0]; // input path: e.g. "/wuxia-out/output2"
+            String outpath3 = args[1]; // output path: e.g. "/wuxia-out/output3"
             Configuration conf = new Configuration();
             Job job = new Job(conf, "task3");
 

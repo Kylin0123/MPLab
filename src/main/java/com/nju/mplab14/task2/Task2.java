@@ -14,8 +14,8 @@ public class Task2 {
         try{
             Configuration conf = new Configuration();
             Job job = new Job(conf, "Task2");
-            String output1 = "/wuxia-out/output1";
-            String output2 = "/wuxia-out/output2";
+            String output1 = args[0]; // 输入路径: "/wuxia-out/output1";
+            String output2 = args[1]; // 输出路径: "/wuxia-out/output2";
             job.setJarByClass(Task2.class);
             job.setInputFormatClass(TextInputFormat.class);
             //job.setOutputFormatClass(TextOutputFormat.class);

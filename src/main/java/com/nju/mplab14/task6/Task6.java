@@ -13,8 +13,8 @@ public class Task6 {
     public static void main(String[] args) {
 
         try {
-            String outpath4 = "/wuxia-out/output4";
-            String outpath6 = "/wuxia-out/output6";
+            String outpath4 = args[0]; // input path: e.g. "/wuxia-out/output4";
+            String outpath6 = args[1]; //output path: e.g. "/wuxia-out/output6";
             Configuration jobconf6 = new Configuration();
             Job job6 = new Job(jobconf6, "task6");
 

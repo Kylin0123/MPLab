@@ -22,7 +22,6 @@ public class Task1CustomRecordWriter extends RecordWriter<Text, Text> {
  
     @Override
     public void write(Text arg0, Text arg1) throws IOException, InterruptedException {
-	    //fileOutstream.writeBytes(arg0.toString() + "\n");
     	fileOutstream.write((arg0.toString() + "\n").getBytes());
     }
 }

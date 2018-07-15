@@ -18,7 +18,7 @@ public class Task3Mapper extends Mapper<LongWritable, Text, Text, Text> {
         context.write(new Text(people[0]), new Text(people[1] + "," + times));
 
     }
-    String[] getPeople(String string){
+    private String[] getPeople(String string){
         int len = string.length();
         string = string.substring(1, len-1);
         return string.split(",");

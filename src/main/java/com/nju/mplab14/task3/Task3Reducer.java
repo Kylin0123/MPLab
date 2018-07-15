@@ -41,7 +41,6 @@ public class Task3Reducer extends Reducer<Text, Text, Text, Text> {
             }
             sum += n;
         }
-        return;
     }
 
     private void dumpMap(Context context) throws IOException, InterruptedException {
@@ -51,9 +50,7 @@ public class Task3Reducer extends Reducer<Text, Text, Text, Text> {
         for( Map.Entry<String, LongWritable> entry : map.entrySet()) {
             String k = entry.getKey();
             long v = entry.getValue().get();
-            neighbor.append(k + ",");
-            neighbor.append((double)v / sum);
-            neighbor.append("|");
+            neighbor.append(k).append(",").append((double)v / sum).append("|");
         }
         neighbor.setCharAt(neighbor.length() - 1, ']');
         context.write(new Text(curKey), new Text(neighbor.toString()));

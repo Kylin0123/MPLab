@@ -20,7 +20,7 @@ public class Task1CustomOutputFormat extends FileOutputFormat<Text, Text> {
     
         FileSystem fs = path.getFileSystem(arg0.getConfiguration());
         FSDataOutputStream fileOutstream = fs.create(fullfilePath, arg0);
-    
+		
         return new Task1CustomRecordWriter(fileOutstream);
     }
  

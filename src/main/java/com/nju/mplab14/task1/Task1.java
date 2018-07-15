@@ -14,14 +14,14 @@ public class Task1{
         try{
             Configuration conf = new Configuration();
             Job job = new Job(conf, "Task1");
-			job.addCacheFile(new Path(args[0]).toUri());
-			job.setJarByClass(Task1.class);
+	    job.addCacheFile(new Path(args[0]).toUri());
+	    job.setJarByClass(Task1.class);
 
             String input = args[1];
-			String output = args[2];
+	    String output = args[2];
             FileInputFormat.addInputPath(job, new Path(input));
-            FileOutputFormat.setOutputPath(job, new Path(output));            
-			job.setMapperClass(Task1Mapper.class);
+            FileOutputFormat.setOutputPath(job, new Path(output));
+	    job.setMapperClass(Task1Mapper.class);
             job.setReducerClass(Task1Reducer.class);
             
             job.setInputFormatClass(TextInputFormat.class);

@@ -12,12 +12,12 @@ public class Task1CustomRecordWriter extends RecordWriter<Text, Text> {
     private DataOutputStream fileOutstream;
  
     public Task1CustomRecordWriter(DataOutputStream fileOutstream) {
-	    this.fileOutstream = fileOutstream;
+    	this.fileOutstream = fileOutstream;
     }
 
     @Override
     public void close(TaskAttemptContext arg0) throws IOException, InterruptedException {
-	    fileOutstream.close();
+    	fileOutstream.close();
     }
  
     @Override

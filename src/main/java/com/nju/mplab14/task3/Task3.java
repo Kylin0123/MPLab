@@ -1,5 +1,5 @@
 package com.nju.mplab14.task3;
-    
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;

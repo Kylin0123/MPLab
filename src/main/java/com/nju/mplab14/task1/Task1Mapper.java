@@ -1,28 +1,24 @@
 package com.nju.mplab14.task1;
 
-import java.util.ArrayList;
-//import java.util.List;
-
-import java.io.IOException;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.StringReader;
-
+import org.ansj.domain.Term;
+import org.ansj.library.DicLibrary;
+import org.ansj.splitWord.analysis.ToAnalysis;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.fs.Path;
 
-import org.ansj.domain.Term;
-import org.ansj.library.DicLibrary;
-//import org.ansj.library.UserDefineLibrary;
-//import org.ansj.splitWord.Analysis;
-import org.ansj.splitWord.analysis.ToAnalysis;
-//import org.ansj.splitWord.analysis.BaseAnalysis;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Task1Mapper extends Mapper<LongWritable, Text, Text, LongWritable>{
 
-    //private static ArrayList<String> names = new ArrayList<>();
+    private static Set<String> names = new HashSet<>();
 
     public void setup(Mapper.Context context){
         try{
@@ -34,10 +30,9 @@ public class Task1Mapper extends Mapper<LongWritable, Text, Text, LongWritable>{
                 try{
                     while((line = joinReader.readLine()) != null){
                         if(!line.equals("")){
-                            ;
-                            //names.add(line);
+                            names.add(line);
                             //UserDefineLibrary.insertWord(line,"userDefine", 1000);
-                            DicLibrary.insert(DicLibrary.DEFAULT,line,"userDefine", 1000);
+                            DicLibrary.insert(DicLibrary.DEFAULT,line,"nr", 10000000);
                         }
                     }
                 }finally{joinReader.close();}
@@ -65,22 +60,20 @@ public class Task1Mapper extends Mapper<LongWritable, Text, Text, LongWritable>{
         ArrayList<String> temp = new ArrayList<>();
         String str = "";
         
-        ToAnalysis udf = new ToAnalysis(new StringReader(value.toString()));
-        Term term = null ;
-		while((term=udf.next())!=null){
-			if(term.getNatureStr() == "userDefine"){
-                temp.add(term.getName());
-            }
-        }
+//        ToAnalysis udf = new ToAnalysis(new StringReader(value.toString()));
+//        Term term = null ;
+//		while((term=udf.next())!=null){
+//			if(term.getNatureStr() == "userDefine"){
+//                temp.add(term.getName());
+//            }
+//        }
        
         
-        //List<Term> terms = ToAnalysis.parse(value.toString()).getTerms();
-        //List<Term> terms = BaseAnalysis.parse(value.toString()).getTerms();
-        // for(Term term : terms){
-        //     if(term.getNatureStr() == "userDefine"){
-        //         temp.add(term.getName());
-        //     }
-        // }
+        List<Term> terms = ToAnalysis.parse(value.toString()).getTerms();
+        for(Term term : terms){
+            if(names.contains(term.getName()))
+                temp.add(term.getName());
+        }
 
         if(temp.size() >= 2 && !((temp.get(0)).equals(temp.get(1)))) {
             for (String t : temp) {

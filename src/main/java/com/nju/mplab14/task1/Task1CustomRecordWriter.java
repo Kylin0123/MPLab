@@ -17,11 +17,13 @@ public class Task1CustomRecordWriter extends RecordWriter<Text, Text> {
 
     @Override
     public void close(TaskAttemptContext arg0) throws IOException, InterruptedException {
+	//close file
     	fileOutstream.close();
     }
  
     @Override
     public void write(Text arg0, Text arg1) throws IOException, InterruptedException {
+	//custom write format
     	fileOutstream.write((arg0.toString() + "\n").getBytes());
     }
 }

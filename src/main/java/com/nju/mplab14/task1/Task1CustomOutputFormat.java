@@ -14,13 +14,15 @@ public class Task1CustomOutputFormat extends FileOutputFormat<Text, Text> {
     @Override
     public RecordWriter<Text, Text> getRecordWriter(TaskAttemptContext arg0) throws IOException, InterruptedException {
 	
+	//assign output path
         Path path = FileOutputFormat.getOutputPath(arg0);
-
         Path fullfilePath = new Path(path, "part0");
-    
+
+	//create file in output path
         FileSystem fs = path.getFileSystem(arg0.getConfiguration());
         FSDataOutputStream fileOutstream = fs.create(fullfilePath, arg0);
 		
+	//call RecordWriter
         return new Task1CustomRecordWriter(fileOutstream);
     }
  

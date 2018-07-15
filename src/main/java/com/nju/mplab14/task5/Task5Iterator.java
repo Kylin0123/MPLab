@@ -12,7 +12,7 @@ public class Task5Iterator {
 	public static void main(String []args){
 		try {
 			Configuration jobConf5 = new Configuration();
-			Job job5 = Job.getInstance(jobConf5, "task5");
+			Job job5 = Job.getInstance(jobConf5, "Task5");
 
 			job5.setJarByClass(Task5Iterator.class);
 			job5.setInputFormatClass(TextInputFormat.class);

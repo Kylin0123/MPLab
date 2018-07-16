@@ -14,7 +14,7 @@ public class Task3 {
             String outpath2 = args[0]; // input path: e.g. "/wuxia-out/output2"
             String outpath3 = args[1]; // output path: e.g. "/wuxia-out/output3"
             Configuration conf = new Configuration();
-            Job job = new Job(conf, "task3");
+            Job job = new Job(conf, "Task3");
 
             job.setJarByClass(Task3.class);
             job.setInputFormatClass(TextInputFormat.class);

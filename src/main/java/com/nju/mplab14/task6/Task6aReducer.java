@@ -6,7 +6,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class Task6Reducer extends Reducer<DoubleWritable, Text, Text, DoubleWritable> {
+public class Task6aReducer extends Reducer<DoubleWritable, Text, Text, DoubleWritable> {
     protected void reduce(DoubleWritable key, Iterable<Text> values, Context context)
         throws IOException, InterruptedException {
 

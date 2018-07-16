@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 90%">
+       <div id="container" style="margin: 0 auto; height: 100%; width: 100%; border: 1px solid black"></div>
+       <p>By cbc, cy, czq, zs</p>
+       <script type="text/javascript" src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts.min.js"></script>
+       <script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+
+    var graph = {
+        links : [
+            {id:"0", name:null, source:"孙大娘", target:"孙二娘", lineStyle:{normal:{}}},
+            {id:"1", name:null, source:"孙二娘", target:"孙三娘", lineStyle:{normal:{}}},
+            {id:"2", name:null, source:"孙三娘", target:"孙大娘", lineStyle:{normal:{}}},
+            {id:"3", name:null, source:"孙三娘", target:"3", lineStyle:{normal:{}}},
+            {id:"4", name:null, source:"3", target:"4", lineStyle:{normal:{}}},
+            {id:"5", name:null, source:"4", target:"5", lineStyle:{normal:{}}},
+            {id:"6", name:null, source:"5", target:"3", lineStyle:{normal:{}}},
+            ],
+        nodes : [
+            {attributes: {modularity_class: 0}, id: "孙大娘", name: "孙大娘", symbolSize: 10},
+            {attributes: {modularity_class: 0}, id: "孙二娘", name: "孙二娘", symbolSize: 10},
+            {attributes: {modularity_class: 0}, id: "孙三娘", name: "孙三娘", symbolSize: 15},
+            {attributes: {modularity_class: 1}, id: "3", name: "李大爷", symbolSize: 20},
+            {attributes: {modularity_class: 1}, id: "4", name: "李二爷", symbolSize: 25},
+            {attributes: {modularity_class: 1}, id: "5", name: "李三爷", symbolSize: 30},
+        ]
+    }
+
+    var categories = [];
+    for (var i = 0; i < 9; i++) {
+        categories[i] = {
+            name: '标签' + i
+        };
+    }
+    graph.nodes.forEach(function (node) {
+        node.itemStyle = null;
+        node.value = node.symbolSize;
+        node.category = node.attributes.modularity_class;
+        // Use random x, y
+        node.x = node.y = null;
+        node.draggable = true;
+    });
+    option = {
+        title: {
+            text: '金庸的江湖',
+            subtext: '人物关系图',
+            top: 'bottom',
+            left: 'right'
+        },
+        tooltip: {},
+        legend: [{
+            // selectedMode: 'single',
+            data: categories.map(function (a) {
+                return a.name;
+            })
+        }],
+        animation: false,
+        series : [
+            {
+                name: '金庸的江湖',
+                type: 'graph',
+                layout: 'force',
+                data: graph.nodes,
+                links: graph.links,
+                categories: categories,
+                roam: true,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'right'
+                    }
+                },
+                force: {
+                    repulsion: 100
+                }
+            }
+        ]
+    };
+
+    myChart.setOption(option);
+       </script>
+   </body>
+</html>

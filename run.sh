@@ -1,3 +1,4 @@
+hdfs dfs -rm -r /user/2018st14/wuxia-out
 peoplelist="/data/task2/people_name_list.txt"
 input1="/data/task2/novels"
 output1="/user/2018st14/wuxia-out/output1"

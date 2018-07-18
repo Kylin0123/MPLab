@@ -2,7 +2,7 @@ package com.nju.mplab14.task5;
 
 public class Task5 {
 
-	private static final int times = 100; //迭代次数
+	private static final int times = 15; //迭代次数
 
 	public static void main(String []args) {
 		try {

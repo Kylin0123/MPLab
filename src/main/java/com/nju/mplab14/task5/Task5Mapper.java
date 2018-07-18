@@ -12,7 +12,7 @@ import java.util.*;
 
 public class Task5Mapper extends Mapper<LongWritable, Text, Text, Text> {
 
-	private Map<String, List<Map.Entry<String, Double>>> mp = new HashMap<>();
+	private Map<String, Map<String, Double>> mp = new HashMap<>();
 
 	@Override
 	protected void setup(Context context) throws IOException, InterruptedException {
@@ -22,7 +22,7 @@ public class Task5Mapper extends Mapper<LongWritable, Text, Text, Text> {
 		while((line=br.readLine())!=null){
 			String []split = line.split("\t");
 			String name = split[0];
-			List<Map.Entry<String,Double>> neighborList = new ArrayList<>();
+			Map<String,Double> neighborMap = new HashMap<>();
 			String list = split[1];
 			list = list.substring(1, list.length()-1);
 			String []neighbors = list.split("\\|");
@@ -30,9 +30,9 @@ public class Task5Mapper extends Mapper<LongWritable, Text, Text, Text> {
 				String []pair = neighbor.split(",");
 				String neighborName = pair[0];
 				Double weight = Double.valueOf(pair[1]);
-				neighborList.add(new AbstractMap.SimpleEntry<>(neighborName, weight));
+				neighborMap.put(neighborName, weight);
 			}
-			mp.put(name, neighborList);
+			mp.put(name, neighborMap);
 		}
 		br.close();
 	}
@@ -43,10 +43,11 @@ public class Task5Mapper extends Mapper<LongWritable, Text, Text, Text> {
 		String []pair = value.toString().split("\t");
 		String name = pair[0];
 		String label = pair[1];
-		for(Map.Entry<String, Double> neighbor:mp.get(name)){
+		for(Map.Entry<String, Double> neighbor:mp.get(name).entrySet()){
 			context.write(
 					new Text(neighbor.getKey()), //Key:邻居名
-					new Text(label+"\t"+String.valueOf(neighbor.getValue()))); //Value:类别\t权重
+					new Text(label+"\t"
+							+String.valueOf(mp.get(neighbor.getKey()).get(name)))); //Value:类别\t自己在邻居那里的权重
 		}
 	}
 

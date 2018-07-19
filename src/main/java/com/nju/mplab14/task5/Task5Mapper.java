@@ -46,8 +46,7 @@ public class Task5Mapper extends Mapper<LongWritable, Text, Text, Text> {
 		for(Map.Entry<String, Double> neighbor:mp.get(name).entrySet()){
 			context.write(
 					new Text(neighbor.getKey()), //Key:邻居名
-					new Text(label+"\t"
-							+String.valueOf(mp.get(neighbor.getKey()).get(name)))); //Value:类别\t自己在邻居那里的权重
+					new Text(label+"\t"+"1")); //Value:类别\t计数1
 		}
 	}
 

@@ -26,4 +26,5 @@ def get_label_var():
     plt.show()
 
 
-get_label_var()
+if __name__ == '__main__':
+    get_label_var()

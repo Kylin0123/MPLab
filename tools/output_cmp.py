@@ -88,10 +88,45 @@ def cmp_output3(file1, file2):
     if flag:
         print("all the same")
 
+def get_setList(file):
+    curLabel = 0
+    setList = []
+    with open(file, encoding="utf-8") as f:
+        for line in f:
+            splt = line.split("\t")
+            name = splt[0]
+            if (int)(splt[1]) != curLabel:
+                newSet = set()
+                newSet.add(name)
+                setList.append(newSet)
+                curLabel = curLabel + 1
+            else:
+                setList[-1].add(name)
+    return setList
+
+def cmp_output6b(file1, file2):
+    """文件中的标签值从1递增"""
+    flag = True
+    setList1 = get_setList(file1)
+    setList2 = get_setList(file2)
+    if(len(setList1) != len(setList2)):
+        print("label numbers are different!")
+        flag = False
+    else:
+        sameNum = 0;
+        for i in setList1:
+            for j in setList2:
+                if(len(i - j) == 0 and len(j - i) == 0):
+                    sameNum = sameNum + 1
+        if sameNum != len(setList1):
+            print("2 files are different")
+            flag = False
+    if flag == True:
+        print("2 files are the same")
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print("请输入参数：1/2/3/4")
+        print("请输入参数：1/2/3/4/6b")
     elif sys.argv[1] == '1':
         cmp_output1("output1a.txt", "output1b.txt")
     elif sys.argv[1] == '2':
@@ -100,3 +135,5 @@ if __name__ == '__main__':
         cmp_output3("output3a.txt", "output3b.txt")
     elif sys.argv[1] == '4':
         cmp_output24("output4a.txt", "output4b.txt")
+    elif sys.argv[1] == '6b':
+        cmp_output6b("output6ba.txt", "output6bb.txt")

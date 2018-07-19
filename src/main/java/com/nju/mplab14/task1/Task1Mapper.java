@@ -42,8 +42,10 @@ public class Task1Mapper extends Mapper<LongWritable, Text, Text, LongWritable>{
         String str = "";      
         List<Term> terms = ToAnalysis.parse(value.toString()).getTerms();
         for(Term term : terms){
-            if(names.contains(term.getName()))
-                temp.add(term.getName());
+            if(names.contains(term.getName()))    
+				temp.add(term.getName());
+	        //if(term.getNatureStr().equals("nr"))
+		        //temp.add(term.getName());
         }
         if(temp.size() >= 2 && !((temp.get(0)).equals(temp.get(1)))) {
             for (String t : temp) {

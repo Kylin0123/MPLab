@@ -13,19 +13,24 @@ def cmp_output1(file1, file2):
         print("file size is different")
 
     with open(file1, encoding="utf-8") as f1:
-        with open(file2, encoding="utf-8") as f2:
-            lines1 = f1.read().splitlines(keepends=False)
-            lines2 = f2.read().splitlines(keepends=False)
-            if len(lines1) != len(lines2):
-                flag = False
-                print("number of lines is different, "+file1+" is "+str(len(lines1))+" but "+file2+" is "+str(len(lines2)))
-            for i in range(0, len(lines1)):
-                if lines1[i] != lines2[i]:
-                    flag = False
-                    print("difference in line " + str(i))
-                    print(file1+":\t"+lines1[i])
-                    print(file2+":\t"+lines2[i])
-                    break
+        lines1 = f1.read().splitlines(keepends=False)
+    with open(file2, encoding="utf-8") as f2:
+        lines2 = f2.read().splitlines(keepends=False)
+    if len(lines1) != len(lines2):
+        flag = False
+        print("number of lines is different, "+file1+" is "+str(len(lines1))+" but "+file2+" is "+str(len(lines2)))
+    set1 = set(lines1)
+    set2 = set(lines2)
+    for line in set1:
+        if line not in set2:
+            flag = False
+            print("line '" + line + "' in " + file1 + " but not in " + file2)
+            break
+    for line in set2:
+        if line not in set1:
+            flag = False
+            print("line '" + line + "' in " + file2 + " but not in " + file1)
+            break
     if flag:
         print("all the same")
 
@@ -49,7 +54,12 @@ def cmp_output24(file1, file2):
     for key in dct1:
         if dct1[key] != dct2[key]:
             flag = False
-            print("difference in " + key + ", file1 is " + dct1[key] + " but file2 is " + dct2[key])
+            print("difference in " + key + ", " + file1 + " is " + dct1[key] + " but " + file2 + " is " + dct2[key])
+            break
+    for key in dct2:
+        if dct1[key] != dct2[key]:
+            flag = False
+            print("difference in " + key + ", " + file1 + " is " + dct1[key] + " but " + file2 + " is " + dct2[key])
             break
     if flag:
         print("all the same")
@@ -79,6 +89,13 @@ def cmp_output3(file1, file2):
         flag = False
         print("length is different")
     for key in graph1:
+        if graph1[key] != graph2[key]:
+            flag = False
+            print("difference in " + key)
+            print(file1 + ":\t" + str(graph1[key]))
+            print(file2 + ":\t" + str(graph2[key]))
+            break
+    for key in graph2:
         if graph1[key] != graph2[key]:
             flag = False
             print("difference in " + key)

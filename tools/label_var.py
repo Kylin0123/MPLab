@@ -51,7 +51,7 @@ if __name__ == '__main__':
         if len(sys.argv) < 3:
             print("请输入文件名")
         else:
-            get_label_num(sys.argv[2])
+            print(get_label_num(sys.argv[2]))
     elif sys.argv[1] == 'alz':
         if len(sys.argv) < 3:
             print("请输入文件名")

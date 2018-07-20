@@ -18,7 +18,8 @@ def cmp_output1(file1, file2):
         lines2 = f2.read().splitlines(keepends=False)
     if len(lines1) != len(lines2):
         flag = False
-        print("number of lines is different, "+file1+" is "+str(len(lines1))+" but "+file2+" is "+str(len(lines2)))
+        print("number of lines is different, " + file1 + " is " + str(len(lines1)) + " but " + file2 + " is " + str(
+            len(lines2)))
     set1 = set(lines1)
     set2 = set(lines2)
     for line in set1:
@@ -105,6 +106,7 @@ def cmp_output3(file1, file2):
     if flag:
         print("all the same")
 
+
 def get_setList(file):
     curLabel = 0
     setList = []
@@ -112,34 +114,36 @@ def get_setList(file):
         for line in f:
             splt = line.split("\t")
             name = splt[0]
-            if (int)(splt[1]) != curLabel:
+            if int(splt[1]) != curLabel:
                 newSet = set()
                 newSet.add(name)
                 setList.append(newSet)
-                curLabel = curLabel + 1
+                curLabel += 1
             else:
                 setList[-1].add(name)
     return setList
+
 
 def cmp_output6b(file1, file2):
     """文件中的标签值从1递增"""
     flag = True
     setList1 = get_setList(file1)
     setList2 = get_setList(file2)
-    if(len(setList1) != len(setList2)):
+    if len(setList1) != len(setList2):
         print("label numbers are different!")
         flag = False
     else:
         sameNum = 0;
         for i in setList1:
             for j in setList2:
-                if(len(i - j) == 0 and len(j - i) == 0):
-                    sameNum = sameNum + 1
+                if len(i - j) == 0 and len(j - i) == 0:
+                    sameNum += 1
         if sameNum != len(setList1):
             print("2 files are different")
             flag = False
-    if flag == True:
+    if flag:
         print("2 files are the same")
+
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:

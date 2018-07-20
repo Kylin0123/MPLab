@@ -2,7 +2,7 @@ package com.nju.mplab14.task1;
 
 import org.ansj.domain.Term;
 import org.ansj.library.DicLibrary;
-import org.ansj.splitWord.analysis.ToAnalysis;
+import org.ansj.splitWord.analysis.IndexAnalysis;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -40,7 +40,7 @@ public class Task1Mapper extends Mapper<LongWritable, Text, Text, LongWritable>{
     public void map(LongWritable key,Text value,Context context) throws IOException, InterruptedException {
         ArrayList<String> temp = new ArrayList<>();
         String str = "";      
-        List<Term> terms = ToAnalysis.parse(value.toString()).getTerms();
+        List<Term> terms = IndexAnalysis.parse(value.toString()).getTerms();
         for(Term term : terms){
             if(names.contains(term.getName()))    
 				temp.add(term.getName());
